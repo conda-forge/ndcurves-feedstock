@@ -16,7 +16,7 @@ source:
     - patches/0002-cmake-Don-t-link-with-all-pinocchio.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: {{ cppname }}
