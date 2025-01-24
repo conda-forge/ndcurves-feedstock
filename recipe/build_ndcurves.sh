@@ -3,9 +3,12 @@
 mkdir build
 cd build
 
+echo "TESTEST $PYTHON"
+
 cmake ${CMAKE_ARGS} .. \
       -GNinja \
       -DCMAKE_BUILD_TYPE=Release \
+      -DPYTHON_EXECUTABLE=$PYTHON \
       -DBUILD_DOCUMENTATION=OFF \
       -DBUILD_PYTHON_INTERFACE=OFF \
       -DGENERATE_PYTHON_STUBS=OFF \
