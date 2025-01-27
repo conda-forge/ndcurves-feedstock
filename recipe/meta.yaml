@@ -16,7 +16,7 @@ source:
     - patches/0002-cmake-Don-t-link-with-all-pinocchio.patch
 
 build:
-  number: 2
+  number: 3
 
 outputs:
   - name: {{ cppname }}
@@ -27,6 +27,10 @@ outputs:
     script: build_ndcurves.bat  # [win]
     requirements:
       build:
+        # Because pinocchio CMake module needs Python
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - numpy                                  # [build_platform != target_platform]
         - cmake
         - ninja
         - {{ compiler('cxx') }}
@@ -35,6 +39,14 @@ outputs:
         - libboost-devel
         - eigen
         - pinocchio
+        # Because pinocchio CMake module needs Python
+        # On Windows, Numpy 2.0 don't allow to export the PY_ARRAY_UNIQUE_SYMBOL.
+        # This has been fixed in Numpy 2.1.
+        - numpy >=2.1      # [win and py>=310]
+        # Unfortunatly, Numpy 2.1 is not distributed with Python 3.9.
+        # We are forced to use Numpy 1 in this case.
+        - numpy >=1.19,<2  # [win and py<310]
+        - numpy            # [not win]
     test:
       commands:
         - test -f $PREFIX/include/ndcurves/fwd.h                       # [not win]
@@ -46,6 +58,7 @@ outputs:
       build:
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - numpy                                  # [build_platform != target_platform]
         - cmake
         - ninja
         - {{ compiler('cxx') }}
@@ -57,8 +70,17 @@ outputs:
         - eigenpy
         - pinocchio
         - python
+        # On Windows, Numpy 2.0 don't allow to export the PY_ARRAY_UNIQUE_SYMBOL.
+        # This has been fixed in Numpy 2.1.
+        - numpy >=2.1      # [win and py>=310]
+        # Unfortunatly, Numpy 2.1 is not distributed with Python 3.9.
+        # We are forced to use Numpy 1 in this case.
+        - numpy >=1.19,<2  # [win and py<310]
+        - numpy            # [not win]
       run:
         - python
+        - numpy >=2.1      # [win and py>=310]
+        - numpy >=1.19,<2  # [win and py<310]
     test:
       imports:
         - ndcurves
