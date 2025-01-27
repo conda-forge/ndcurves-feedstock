@@ -6,6 +6,8 @@ cd build
 echo "TESTEST $PYTHON"
 
 cmake ${CMAKE_ARGS} .. \
+      --trace \
+      --trace-expand \
       -GNinja \
       -DCMAKE_BUILD_TYPE=Release \
       -DPYTHON_EXECUTABLE=$PYTHON \
