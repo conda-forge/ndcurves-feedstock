@@ -27,6 +27,9 @@ outputs:
     script: build_ndcurves.bat  # [win]
     requirements:
       build:
+        # Because pinocchio CMake module need Python
+        - python                                 # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
         - cmake
         - ninja
         - {{ compiler('cxx') }}
