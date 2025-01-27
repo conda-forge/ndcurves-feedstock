@@ -30,6 +30,7 @@ outputs:
         # Because pinocchio CMake module need Python
         - python                                 # [build_platform != target_platform]
         - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - numpy                                  # [build_platform != target_platform]
         - cmake
         - ninja
         - {{ compiler('cxx') }}
@@ -38,6 +39,7 @@ outputs:
         - libboost-devel
         - eigen
         - pinocchio
+        - numpy
     test:
       commands:
         - test -f $PREFIX/include/ndcurves/fwd.h                       # [not win]
