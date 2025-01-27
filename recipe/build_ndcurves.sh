@@ -3,8 +3,6 @@
 mkdir build
 cd build
 
-echo "TESTEST $PYTHON"
-
 export BUILD_NUMPY_INCLUDE_DIRS=$( $PYTHON -c "import numpy; print (numpy.get_include())")
 export TARGET_NUMPY_INCLUDE_DIRS=$SP_DIR/numpy/core/include
 
@@ -21,8 +19,6 @@ else
 fi
 
 cmake ${CMAKE_ARGS} .. \
-      --trace \
-      --trace-expand \
       -GNinja \
       -DCMAKE_BUILD_TYPE=Release \
       -DPYTHON_EXECUTABLE=$PYTHON \
