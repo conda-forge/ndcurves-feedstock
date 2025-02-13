@@ -85,12 +85,10 @@ outputs:
       imports:
         - ndcurves
   - name: {{ name }}
-    build:
-      noarch: generic
     requirements:
       run:
-        - {{ pin_subpackage(cppname, max_pin="x.x.x") }}
-        - {{ pin_subpackage(pythonname, max_pin="x.x.x") }}
+        - {{ pin_subpackage(cppname, exact=true) }}
+        - {{ pin_subpackage(pythonname, exact=true) }}
     test:
       imports:
         - ndcurves
