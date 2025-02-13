@@ -86,6 +86,9 @@ outputs:
         - ndcurves
   - name: {{ name }}
     requirements:
+      host:
+        # Explicitely add a python requirement to change hash between python version
+        - python
       run:
         - {{ pin_subpackage(cppname, exact=true) }}
         - {{ pin_subpackage(pythonname, exact=true) }}
