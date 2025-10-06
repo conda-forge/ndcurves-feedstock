@@ -1,29 +1,29 @@
 {% set name = "ndcurves" %}
 {% set cppname = "lib" ~ name %}
 {% set pythonname = name ~ "-python" %}
-{% set version = "2.0.0" %}
+{% set version = "2.1.0" %}
 
 
 package:
-  name:  {{ name }}-split
+  name: {{ name }}-split
   version: {{ version }}
 
 source:
   url: https://github.com/loco-3d/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 814f7f4551c042794fe5bccbe6eb737825574d8c6b90b2274aa9dcd6430b7ebd
+  sha256: 2c6c53a6c03ad4d5230827605935e6300f4caa71abd21828af15fcfa4446c4d5
   patches:
     - patches/0001-cmake-Fix-Windows-build.patch
     - patches/0002-cmake-Don-t-link-with-all-pinocchio.patch
 
 build:
-  number: 6
+  number: 0
 
 outputs:
   - name: {{ cppname }}
     build:
       run_exports:
         - {{ pin_subpackage(cppname, max_pin='x.x.x') }}
-    script: build_ndcurves.sh   # [not win]
+    script: build_ndcurves.sh  # [not win]
     script: build_ndcurves.bat  # [win]
     requirements:
       build:
@@ -52,7 +52,7 @@ outputs:
         - test -f $PREFIX/include/ndcurves/fwd.h                       # [not win]
         - if not exist %PREFIX%\Library\include\ndcurves\fwd.h exit 1  # [win]
   - name: {{ pythonname }}
-    script: build_ndcurves_python.sh   # [not win]
+    script: build_ndcurves_python.sh  # [not win]
     script: build_ndcurves_python.bat  # [win]
     requirements:
       build:
