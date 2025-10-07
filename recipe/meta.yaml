@@ -12,8 +12,7 @@ source:
   url: https://github.com/loco-3d/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
   sha256: 2c6c53a6c03ad4d5230827605935e6300f4caa71abd21828af15fcfa4446c4d5
   patches:
-    - patches/0001-cmake-Fix-Windows-build.patch
-    - patches/0002-cmake-Don-t-link-with-all-pinocchio.patch
+    - patches/0001-PATCH-cmake-Don-t-link-with-all-pinocchio.patch
 
 build:
   number: 0
