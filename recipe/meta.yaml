@@ -1,7 +1,7 @@
 {% set name = "ndcurves" %}
 {% set cppname = "lib" ~ name %}
 {% set pythonname = name ~ "-python" %}
-{% set version = "2.1.0" %}
+{% set version = "2.1.1" %}
 
 
 package:
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://github.com/loco-3d/{{ name }}/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 2c6c53a6c03ad4d5230827605935e6300f4caa71abd21828af15fcfa4446c4d5
+  sha256: 43682331a49ed26772269a847181c7fc92bd9a12ed8de2edf2ba3c7080ccbaa0
   patches:
     - patches/0001-PATCH-cmake-Don-t-link-with-all-pinocchio.patch
 
