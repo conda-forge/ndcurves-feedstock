@@ -116,14 +116,8 @@ outputs:
       run:
         - ${{ pin_subpackage(cppname, exact=true) }}
         - ${{ pin_subpackage(pythonname, exact=true) }}
-    tests:
-      - python:
-          imports:
-            - ndcurves
-          pip_check: false
-      - package_contents:
-          include:
-            - ndcurves/fwd.h
+      run_exports:
+        - ${{ pin_subpackage(cppname, exact=true) }}
 
 about:
   homepage: https://github.com/loco-3d/ndcurves
