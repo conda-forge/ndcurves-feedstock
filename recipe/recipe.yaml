@@ -48,10 +48,7 @@ outputs:
         # Because pinocchio CMake module needs Python
         - if: win and python_version >= "3.10"
           then: numpy >=2.1
-        - if: win and python_version < "3.10"
-          then: "numpy >=1.19,<2"
-        - if: not win
-          then: numpy
+          else: numpy
       run_exports:
         - ${{ pin_subpackage(cppname, upper_bound='x.x.x') }}
     tests:
@@ -86,20 +83,14 @@ outputs:
         - ${{ pin_subpackage(cppname, exact=True) }}
         - if: win and python_version >= "3.10"
           then: numpy >=2.1
-        - if: win and python_version < "3.10"
-          then: "numpy >=1.19,<2"
-        - if: not win
-          then: numpy
+          else: numpy
       run:
         - python
         - coal-python
         - pinocchio-python
         - if: win and python_version >= "3.10"
           then: numpy >=2.1
-        - if: win and python_version < "3.10"
-          then: "numpy >=1.19,<2"
-        - if: not win
-          then: numpy
+          else: numpy
     tests:
       - python:
           imports:
