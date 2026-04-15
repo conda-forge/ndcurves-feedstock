@@ -1,26 +1,25 @@
-From f91bc2e2b4679d73479545feae464e7f6c6ac2cf Mon Sep 17 00:00:00 2001
-From: Joris Vaillant <joris.vaillant@inria.fr>
-Date: Tue, 7 Oct 2025 09:29:10 +0200
-Subject: [PATCH] [PATCH] cmake: Don't link with all pinocchio
+From 008b14a19d6979a6b8f455ff3dcecae99c93d694 Mon Sep 17 00:00:00 2001
+From: ManifoldFR <wilson.jallet@polytechnique.org>
+Date: Thu, 16 Apr 2026 00:08:03 +0200
+Subject: [PATCH] Use pinocchio_headers target
 
 ---
- CMakeLists.txt | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index ae7efca..0eaa778 100644
+index 1c320c4..3d13a90 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -135,7 +135,8 @@ else()
-                               $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-   target_link_libraries(${PROJECT_NAME} INTERFACE Boost::serialization)
-   if(CURVES_WITH_PINOCCHIO_SUPPORT)
--    target_link_libraries(${PROJECT_NAME} INTERFACE pinocchio::pinocchio)
-+    target_link_libraries(${PROJECT_NAME}
-+                          INTERFACE pinocchio::pinocchio_headers)
-     target_compile_definitions(${PROJECT_NAME}
-                                INTERFACE -DCURVES_WITH_PINOCCHIO_SUPPORT)
-   endif(CURVES_WITH_PINOCCHIO_SUPPORT)
+@@ -147,7 +147,7 @@ else()
+     )
+     target_link_libraries(${PROJECT_NAME} INTERFACE Boost::serialization)
+     if(CURVES_WITH_PINOCCHIO_SUPPORT)
+-        target_link_libraries(${PROJECT_NAME} INTERFACE pinocchio::pinocchio)
++        target_link_libraries(${PROJECT_NAME} INTERFACE pinocchio::pinocchio_headers)
+         target_compile_definitions(
+             ${PROJECT_NAME}
+             INTERFACE -DCURVES_WITH_PINOCCHIO_SUPPORT
 -- 
-2.51.0
+2.53.0
 

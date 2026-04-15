@@ -4,15 +4,15 @@ context:
   name: ndcurves
   cppname: lib${{ name }}
   pythonname: ${{ name }}-python
-  version: "2.1.1"
+  version: "2.3.0"
 
 recipe:
   name: ${{ name }}-split
   version: ${{ version }}
 
 source:
-  url: https://github.com/loco-3d/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
-  sha256: 43682331a49ed26772269a847181c7fc92bd9a12ed8de2edf2ba3c7080ccbaa0
+  url: https://github.com/loco-3d/${{ name }}/archive/v${{ version }}.tar.gz
+  sha256: 9550a556d5cdf0de70b8a0fe48878f987bfcfc385efaf0305f71647133bf00d8
   patches:
     - patches/0001-PATCH-cmake-Don-t-link-with-all-pinocchio.patch
 
