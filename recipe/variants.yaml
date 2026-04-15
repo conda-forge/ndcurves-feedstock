@@ -1,6 +1,9 @@
-- if: win
-  then:
-    c_compiler:
-      - clang
-    cxx_compiler:
-      - clang
+c_compiler:
+  - if: win
+    then: clang
+cxx_compiler:
+  - if: win
+    then: clang
+eigen_abi_devel:
+  - 3.4.0
+  - 5.0.1

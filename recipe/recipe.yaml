@@ -6,7 +6,7 @@ context:
   pythonname: ${{ name }}-python
   version: "2.1.1"
 
-package:
+recipe:
   name: ${{ name }}-split
   version: ${{ version }}
 
@@ -27,8 +27,6 @@ outputs:
         - if: unix
           then: build_ndcurves.sh
           else: build_ndcurves.bat
-      run_exports:
-        - ${{ pin_subpackage(cppname, upper_bound='x.x.x') }}
     requirements:
       build:
         - if: build_platform != target_platform
@@ -43,6 +41,9 @@ outputs:
       host:
         - libboost-devel
         - eigen
+        - eigen-abi-devel
+        # Because pinocchio 3.9 still depends on 'hpp-fcl'
+        - coal
         - pinocchio
         # Because pinocchio CMake module needs Python
         - if: win and python_version >= "3.10"
@@ -51,6 +52,8 @@ outputs:
           then: "numpy >=1.19,<2"
         - if: not win
           then: numpy
+      run_exports:
+        - ${{ pin_subpackage(cppname, upper_bound='x.x.x') }}
     tests:
       - package_contents:
           include:
@@ -75,12 +78,12 @@ outputs:
         - ${{ compiler('cxx') }}
         - ${{ stdlib("c") }}
       host:
-        - libboost-devel
         - libboost-python-devel
-        - eigen
         - eigenpy
-        - pinocchio
-        - python
+        # Because pinocchio-python 3.9 still depends on 'hpp-fcl'
+        - coal-python
+        - pinocchio-python
+        - ${{ pin_subpackage(cppname, exact=True) }}
         - if: win and python_version >= "3.10"
           then: numpy >=2.1
         - if: win and python_version < "3.10"
@@ -89,6 +92,7 @@ outputs:
           then: numpy
       run:
         - python
+        - coal-python
         - pinocchio-python
         - if: win and python_version >= "3.10"
           then: numpy >=2.1
@@ -102,6 +106,7 @@ outputs:
             - ndcurves
           pip_check: false
 
+  # Metapackage
   - package:
       name: ${{ name }}
     requirements:
