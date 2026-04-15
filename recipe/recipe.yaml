@@ -43,8 +43,8 @@ outputs:
         - eigen
         - eigen-abi-devel
         # Because pinocchio 3.9 still depends on 'hpp-fcl'
-        - coal
-        - pinocchio
+        - libcoal
+        - libpinocchio
         # Because pinocchio CMake module needs Python
         - if: win and python_version >= "3.10"
           then: numpy >=2.1
@@ -78,16 +78,16 @@ outputs:
         - libboost-python-devel
         - eigenpy
         # Because pinocchio-python 3.9 still depends on 'hpp-fcl'
-        - coal-python
-        - pinocchio-python
+        - coal
+        - pinocchio
         - ${{ pin_subpackage(cppname, exact=True) }}
         - if: win and python_version >= "3.10"
           then: numpy >=2.1
           else: numpy
       run:
         - python
-        - coal-python
-        - pinocchio-python
+        - coal
+        - pinocchio
         - if: win and python_version >= "3.10"
           then: numpy >=2.1
           else: numpy
