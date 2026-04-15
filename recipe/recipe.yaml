@@ -104,7 +104,10 @@ outputs:
       host:
         # Explicitly add a python requirement to change hash between python versions
         - python
+        - ${{ pin_subpackage(cppname, exact=true) }}
+        - ${{ pin_subpackage(pythonname, exact=true) }}
       run:
+        - python
         - ${{ pin_subpackage(cppname, exact=true) }}
         - ${{ pin_subpackage(pythonname, exact=true) }}
       run_exports:
