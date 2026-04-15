@@ -109,6 +109,11 @@ outputs:
         - ${{ pin_subpackage(pythonname, exact=true) }}
       run_exports:
         - ${{ pin_subpackage(cppname, exact=true) }}
+    tests:
+      - python:
+          imports:
+            - ndcurves
+          pip_check: false
 
 about:
   homepage: https://github.com/loco-3d/ndcurves
