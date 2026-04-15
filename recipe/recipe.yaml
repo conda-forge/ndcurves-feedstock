@@ -1,0 +1,137 @@
+schema_version: 1
+
+context:
+  name: ndcurves
+  cppname: lib${{ name }}
+  pythonname: ${{ name }}-python
+  version: "2.1.1"
+
+package:
+  name: ${{ name }}-split
+  version: ${{ version }}
+
+source:
+  url: https://github.com/loco-3d/${{ name }}/releases/download/v${{ version }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 43682331a49ed26772269a847181c7fc92bd9a12ed8de2edf2ba3c7080ccbaa0
+  patches:
+    - patches/0001-PATCH-cmake-Don-t-link-with-all-pinocchio.patch
+
+build:
+  number: 0
+
+outputs:
+  - package:
+      name: ${{ cppname }}
+    build:
+      script:
+        - if: unix
+          then: build_ndcurves.sh
+          else: build_ndcurves.bat
+      run_exports:
+        - ${{ pin_subpackage(cppname, upper_bound='x.x.x') }}
+    requirements:
+      build:
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - numpy
+        - cmake
+        - ninja
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+      host:
+        - libboost-devel
+        - eigen
+        - pinocchio
+        # Because pinocchio CMake module needs Python
+        - if: win and python_version >= "3.10"
+          then: numpy >=2.1
+        - if: win and python_version < "3.10"
+          then: "numpy >=1.19,<2"
+        - if: not win
+          then: numpy
+    tests:
+      - package_contents:
+          include:
+            - ndcurves/fwd.h
+
+  - package:
+      name: ${{ pythonname }}
+    build:
+      script:
+        - if: unix
+          then: build_ndcurves_python.sh
+          else: build_ndcurves_python.bat
+    requirements:
+      build:
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+            - numpy
+        - cmake
+        - ninja
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib("c") }}
+      host:
+        - libboost-devel
+        - libboost-python-devel
+        - eigen
+        - eigenpy
+        - pinocchio
+        - python
+        - if: win and python_version >= "3.10"
+          then: numpy >=2.1
+        - if: win and python_version < "3.10"
+          then: "numpy >=1.19,<2"
+        - if: not win
+          then: numpy
+      run:
+        - python
+        - pinocchio-python
+        - if: win and python_version >= "3.10"
+          then: numpy >=2.1
+        - if: win and python_version < "3.10"
+          then: "numpy >=1.19,<2"
+        - if: not win
+          then: numpy
+    tests:
+      - python:
+          imports:
+            - ndcurves
+          pip_check: false
+
+  - package:
+      name: ${{ name }}
+    requirements:
+      host:
+        # Explicitly add a python requirement to change hash between python versions
+        - python
+      run:
+        - ${{ pin_subpackage(cppname, exact=true) }}
+        - ${{ pin_subpackage(pythonname, exact=true) }}
+    tests:
+      - python:
+          imports:
+            - ndcurves
+          pip_check: false
+      - package_contents:
+          include:
+            - ndcurves/fwd.h
+
+about:
+  homepage: https://github.com/loco-3d/ndcurves
+  repository: https://github.com/loco-3d/ndcurves
+  summary: >
+    A template-based Library for creating curves of arbitrary order and dimension,
+    eventually subject to derivative constraints.
+    The main use of the library is the creation of end-effector trajectories for legged robots.
+  license: BSD-2-Clause
+  license_file: LICENSE
+
+extra:
+  feedstock-name: ${{ name }}
+  recipe-maintainers:
+    - ManifoldFR
+    - jorisv
