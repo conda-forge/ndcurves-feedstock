@@ -17,7 +17,7 @@ source:
     - patches/0001-PATCH-cmake-Don-t-link-with-all-pinocchio.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - package:
@@ -46,7 +46,7 @@ outputs:
         - libcoal
         - libpinocchio
         # Because pinocchio CMake module needs Python
-        - if: win and python_version >= "3.10"
+        - if: win
           then: numpy >=2.1
           else: numpy
       run_exports:
@@ -81,14 +81,14 @@ outputs:
         - coal
         - pinocchio
         - ${{ pin_subpackage(cppname, exact=True) }}
-        - if: win and python_version >= "3.10"
+        - if: win
           then: numpy >=2.1
           else: numpy
       run:
         - python
         - coal
         - pinocchio
-        - if: win and python_version >= "3.10"
+        - if: win
           then: numpy >=2.1
           else: numpy
     tests:
